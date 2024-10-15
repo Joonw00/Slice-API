@@ -12,11 +12,19 @@ const postSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-// 게시글 생성 메서드
 postSchema.statics.createPost = function (postData) {
   const post = new this(postData);
   return post.save();
 };
+
+postSchema.statics.updatePost = function (postId, updateData) {
+  return this.findByIdAndUpdate(postId, updateData, { new: true });
+};
+
+postSchema.statics.deletePost = function (postId) {
+    return this.findByIdAndDelete(postId);
+};
+
 
 const Post = mongoose.model('Post', postSchema);
 export default Post;

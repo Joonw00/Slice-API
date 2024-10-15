@@ -23,6 +23,50 @@ groupSchema.statics.updateGroup = function (groupId, updateData) {
 
 groupSchema.statics.deleteGroup = function (groupId) {
     return this.findByIdAndDelete(groupId);
+};
+
+
+groupSchema.statics.getGroupsWithFilters = function ({ page, pageSize, sortBy, keyword }) {
+  const sortOptions = {
+    latest: { createdAt: -1 },
+    mostPosted: { postCount: -1 },
   };
+
+  // 검색 조건 (name 또는 introduction에 keyword 포함 여부)
+  const query = keyword
+    ? {
+        $or: [
+          { name: { $regex: keyword, $options: 'i' } },
+          { introduction: { $regex: keyword, $options: 'i' } },
+        ],
+      }
+    : {};
+
+  // 페이징 처리
+  const skip = (page - 1) * pageSize;
+
+  // 그룹 목록을 검색어, 정렬 기준, 페이징에 맞춰 조회
+  return this.find(query)
+    .sort(sortOptions[sortBy] || sortOptions.latest)
+    .skip(skip)
+    .limit(pageSize);
+};
+
+groupSchema.statics.getTotalGroupCount = function (keyword) {
+  const query = keyword
+    ? {
+        $or: [
+          { name: { $regex: keyword, $options: 'i' } },
+          { introduction: { $regex: keyword, $options: 'i' } },
+        ],
+      }
+    : {};
+
+  return this.countDocuments(query);
+};
+
+groupSchema.statics.getGroupById = function (groupId) {
+  return this.findOne({ _id: groupId });
+};
 const Group = mongoose.model('Group', groupSchema);
 export default Group;
