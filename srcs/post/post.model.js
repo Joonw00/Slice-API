@@ -31,16 +31,12 @@ postSchema.statics.getPostsWithFilters = function ({ groupId, page, pageSize, so
     mostCommented: { commentCount: -1 },
   };
 
-  // 검색 조건 (title에 keyword 포함 여부)
   const query = {
     groupId,
     ...(keyword ? { title: { $regex: keyword, $options: 'i' } } : {}),
   };
-
-  // 페이징 처리
   const skip = (page - 1) * pageSize;
 
-  // 게시글 목록을 검색어, 정렬 기준, 페이징에 맞춰 조회
   return this.find(query)
     .sort(sortOptions[sortBy] || sortOptions.latest)
     .skip(skip)
@@ -59,7 +55,12 @@ postSchema.statics.getTotalPostCount = function (groupId, keyword) {
 
 
 postSchema.statics.getPostById = function (postId) {
-  return this.findOne({ _id: postId });
+  return this.findOne({ _id: postId }).lean(); 
+};
+
+
+postSchema.statics.countPostsByGroupId = function (groupId) {
+  return this.countDocuments({ groupId });
 };
 const Post = mongoose.model('Post', postSchema);
 export default Post;

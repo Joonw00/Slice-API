@@ -66,3 +66,9 @@ export const deletePost = async (postId, postPassword) => {
 
   return { message: '게시글 삭제 성공' };
 };
+
+
+
+export const countPostsByGroupId = async (groupId) => {
+  return Post.countPostsByGroupId(groupId);
+};

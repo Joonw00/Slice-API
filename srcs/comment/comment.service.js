@@ -1,7 +1,6 @@
 import Comment from './comment.model.js';
 import bcrypt from 'bcryptjs';
 
-// 댓글 비밀번호 검증 헬퍼 함수
 const verifyCommentPassword = async (commentId, password) => {
   const comment = await Comment.findById(commentId);
   if (!comment) {
@@ -15,7 +14,6 @@ const verifyCommentPassword = async (commentId, password) => {
   return comment;
 };
 
-// 댓글 추가 서비스 함수
 export const addComment = async (postId, commentData) => {
   const { nickname, content, password } = commentData;
 
@@ -30,7 +28,6 @@ export const addComment = async (postId, commentData) => {
   return newComment;
 };
 
-// 댓글 삭제 서비스 함수
 export const deleteComment = async (commentId, password) => {
   await verifyCommentPassword(commentId, password);
   await Comment.deleteComment(commentId);
@@ -50,4 +47,9 @@ export const getCommentList = async ({ postId, page, pageSize }) => {
     totalItemCount,
     data: comments,
   };
+};
+
+
+export const countCommentsByPostId = async (postId) => {
+  return Comment.countDocuments({ postId });
 };

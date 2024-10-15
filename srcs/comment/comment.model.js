@@ -30,5 +30,8 @@ commentSchema.statics.getTotalCommentCount = function (postId) {
   return this.countDocuments({ postId });
 };
 
+commentSchema.statics.countCommentsByPostId = function (postId) {
+  return this.countDocuments({ postId });
+};
 const Comment = mongoose.model('Comment', commentSchema);
 export default Comment;
