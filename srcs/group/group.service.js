@@ -1,6 +1,6 @@
 import Group from './group.model.js';
 import bcrypt from 'bcryptjs';
-export const verifyGroupAndPassword = async (groupId, password) => {
+export const verifyGroupPassword = async (groupId, password) => {
     const group = await Group.findById(groupId);
     if (!group) {
       throw new Error('NOT_FOUND');
@@ -30,7 +30,7 @@ export const createGroup = async (groupData) => {
 
 export const updateGroup = async (groupId, updateData) => {
   const { password, name, introduction } = updateData;
-  const group = await verifyGroupAndPassword(groupId, password);
+  const group = await verifyGroupPassword(groupId, password);
 
   const updatedGroup = await Group.updateGroup(groupId, {
     name,
@@ -43,8 +43,8 @@ export const updateGroup = async (groupId, updateData) => {
 
 
 export const deleteGroup = async (groupId, password) => {
-    const group = await verifyGroupAndPassword(groupId, password);
+    const group = await verifyGroupPassword(groupId, password);
     await Group.deleteGroup(groupId);
   
     return { message: '그룹 삭제 성공' };
-  };
+};
