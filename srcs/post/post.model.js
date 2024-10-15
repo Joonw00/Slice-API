@@ -25,25 +25,16 @@ postSchema.statics.deletePost = function (postId) {
     return this.findByIdAndDelete(postId);
 };
 
-postSchema.statics.getPostsWithFilters = function ({ groupId, page, pageSize, sortBy, keyword }) {
-  const sortOptions = {
-    latest: { createdAt: -1 },
-    mostCommented: { commentCount: -1 },
-  };
-
+postSchema.statics.getPostsWithFilters = function ({ groupId, page, pageSize, keyword }) {
   const query = {
     groupId,
     ...(keyword ? { title: { $regex: keyword, $options: 'i' } } : {}),
   };
   const skip = (page - 1) * pageSize;
 
-  return this.find(query)
-    .sort(sortOptions[sortBy] || sortOptions.latest)
-    .skip(skip)
-    .limit(pageSize);
+  return this.find(query).skip(skip).limit(pageSize).lean();
 };
 
-// 총 게시글 수 조회 (검색 조건 포함)
 postSchema.statics.getTotalPostCount = function (groupId, keyword) {
   const query = {
     groupId,
@@ -53,9 +44,9 @@ postSchema.statics.getTotalPostCount = function (groupId, keyword) {
   return this.countDocuments(query);
 };
 
-
+// 게시글 상세 조회
 postSchema.statics.getPostById = function (postId) {
-  return this.findOne({ _id: postId }).lean(); 
+  return this.findOne({ _id: postId }).lean();
 };
 
 

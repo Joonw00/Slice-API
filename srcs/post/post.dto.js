@@ -1,4 +1,4 @@
-export const createPostResponseDto = (post) => {
+export const postResponseDto = (post) => {
     return {
       id: post._id,
       groupId: post.groupId,
@@ -7,7 +7,9 @@ export const createPostResponseDto = (post) => {
       content: post.content,
       tags: post.tags,
       location: post.location,
+      commentCount: post.commentCount || 0,
       moment: post.moment,
       createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
     };
   };
