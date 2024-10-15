@@ -37,3 +37,17 @@ export const deleteComment = async (commentId, password) => {
 
   return { message: '댓글 삭제 성공' };
 };
+
+
+export const getCommentList = async ({ postId, page, pageSize }) => {
+  const comments = await Comment.getCommentsWithPaging({ postId, page, pageSize });
+  const totalItemCount = await Comment.getTotalCommentCount(postId);
+  const totalPages = Math.ceil(totalItemCount / pageSize);
+
+  return {
+    currentPage: page,
+    totalPages,
+    totalItemCount,
+    data: comments,
+  };
+};

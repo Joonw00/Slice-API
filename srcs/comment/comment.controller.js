@@ -1,5 +1,5 @@
-import { addComment, deleteComment } from './comment.service.js';
-import { commentResponseDto } from './comment.dto.js';
+import { addComment, deleteComment, getCommentList  } from './comment.service.js';
+import { commentResponseDto, commentListResponseDto  } from './comment.dto.js';
 
 export const addCommentController = async (req, res, next) => {
   try {
@@ -22,6 +22,26 @@ export const deleteCommentController = async (req, res, next) => {
 
     const response = await deleteComment(commentId, password);
     res.status(200).json(response); 
+  } catch (error) {
+    next(error);  
+  }
+};
+
+
+export const getCommentListController = async (req, res, next) => {
+  try {
+    const postId = req.params.postId;
+    const { page = 1, pageSize = 10 } = req.query;
+
+    const commentList = await getCommentList({
+      postId,
+      page: Number(page),
+      pageSize: Number(pageSize),
+    });
+
+    const response = commentListResponseDto(commentList);
+
+    res.status(200).json(response);  
   } catch (error) {
     next(error);  
   }
