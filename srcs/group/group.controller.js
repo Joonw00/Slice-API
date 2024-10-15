@@ -1,7 +1,6 @@
 import { createGroup, updateGroup, deleteGroup  } from './group.service.js';
 import { createGroupResponseDto } from './group.dto.js';
 
-// 그룹 생성 컨트롤러
 export const createGroupController = async (req, res, next) => {
   try {
     const newGroup = await createGroup(req.body);
@@ -12,7 +11,6 @@ export const createGroupController = async (req, res, next) => {
   }
 };
 
-// 그룹 수정 컨트롤러
 export const updateGroupController = async (req, res, next) => {
   try {
     const groupId = req.params.groupId;
@@ -23,6 +21,7 @@ export const updateGroupController = async (req, res, next) => {
     next(error);  
   }
 };
+
 export const deleteGroupController = async (req, res, next) => {
     try {
       const groupId = req.params.groupId;
@@ -33,4 +32,4 @@ export const deleteGroupController = async (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  };
+};
