@@ -1,0 +1,11 @@
+### 그룹 생성 (POST 요청)
+/api/groups
+
+POST http://localhost:3000/api/groups
+Content-Type: application/json
+
+{
+  "name": "친구 모임",
+  "password": "password123",
+  "introduction": "우리는 자주 만나는 친구들의 모임입니다"
+}
