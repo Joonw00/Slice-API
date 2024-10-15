@@ -1,4 +1,5 @@
 import Group from './group.model.js';
+import { countPostsByGroupId } from '../post/post.service.js';
 import bcrypt from 'bcryptjs';
 export const verifyGroupPassword = async (groupId, password) => {
     const group = await Group.findById(groupId);
@@ -37,9 +38,12 @@ export const updateGroup = async (groupId, updateData) => {
     introduction,
     updatedAt: Date.now(),
   });
+  const postCount = await countPostsByGroupId(groupId);
 
-  return updatedGroup;
-};
+  return {
+    ...updatedGroup.toObject(), 
+    postCount,
+  };};
 
 
 export const deleteGroup = async (groupId, password) => {

@@ -25,6 +25,33 @@ postSchema.statics.deletePost = function (postId) {
     return this.findByIdAndDelete(postId);
 };
 
+postSchema.statics.getPostsWithFilters = function ({ groupId, page, pageSize, keyword }) {
+  const query = {
+    groupId,
+    ...(keyword ? { title: { $regex: keyword, $options: 'i' } } : {}),
+  };
+  const skip = (page - 1) * pageSize;
 
+  return this.find(query).skip(skip).limit(pageSize).lean();
+};
+
+postSchema.statics.getTotalPostCount = function (groupId, keyword) {
+  const query = {
+    groupId,
+    ...(keyword ? { title: { $regex: keyword, $options: 'i' } } : {}),
+  };
+
+  return this.countDocuments(query);
+};
+
+// 게시글 상세 조회
+postSchema.statics.getPostById = function (postId) {
+  return this.findOne({ _id: postId }).lean();
+};
+
+
+postSchema.statics.countPostsByGroupId = function (groupId) {
+  return this.countDocuments({ groupId });
+};
 const Post = mongoose.model('Post', postSchema);
 export default Post;

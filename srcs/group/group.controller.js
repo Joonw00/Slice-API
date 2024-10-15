@@ -1,11 +1,11 @@
 import { createGroup, updateGroup, deleteGroup  } from './group.service.js';
-import { createGroupResponseDto } from './group.dto.js';
+import { groupResponseDto } from './group.dto.js';
 
 export const createGroupController = async (req, res, next) => {
   try {
     const newGroup = await createGroup(req.body);
-    const response = createGroupResponseDto(newGroup);
-    res.status(201).json(response);  // 201 Created
+    const response = groupResponseDto(newGroup);
+    res.status(201).json(response); 
   } catch (error) {
     next(error); 
   }
@@ -15,7 +15,7 @@ export const updateGroupController = async (req, res, next) => {
   try {
     const groupId = req.params.groupId;
     const updatedGroup = await updateGroup(groupId, req.body);
-    const response = createGroupResponseDto(updatedGroup);
+    const response = groupResponseDto(updatedGroup);
     res.status(201).json(response); 
   } catch (error) {
     next(error);  
