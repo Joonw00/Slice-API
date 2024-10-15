@@ -1,6 +1,6 @@
 import Group from './group.model.js';
-import bcrypt from 'bcrypt';
-const verifyGroupAndPassword = async (groupId, password) => {
+import bcrypt from 'bcryptjs';
+export const verifyGroupAndPassword = async (groupId, password) => {
     const group = await Group.findById(groupId);
     if (!group) {
       throw new Error('NOT_FOUND');
