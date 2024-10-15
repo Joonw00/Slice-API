@@ -1,7 +1,7 @@
 import express from 'express';
 import connectDB from './config/db.js';
 import groupRoutes from './srcs/group/group.routes.js';
-// import postRoutes from './srcs/post/post.routes.js';
+import postRoutes from './srcs/post/post.routes.js';
 // import commentRoutes from './srcs/comment/comment.routes.js';
 import cors from 'cors';
 import { errorHandler } from './config/errorHandler.js';
@@ -14,7 +14,7 @@ app.use(express.json());
 
 // 라우트 설정
 app.use('/api/groups', groupRoutes);
-// app.use('/api/posts', postRoutes);
+app.use('/api/posts', postRoutes);
 // app.use('/api/comments', commentRoutes);
 app.use(errorHandler);
 
