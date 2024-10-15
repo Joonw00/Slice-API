@@ -1,5 +1,5 @@
 import Post from './post.model.js';
-import { verifyGroupPassword } from '../group/group.service.js';  // group 서비스에서 가져오기
+import { verifyGroupPassword } from '../group/group.service.js'; 
 import bcrypt from 'bcryptjs';
 
 const verifyPostPassword = async (postId, postPassword) => {
